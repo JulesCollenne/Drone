@@ -4,17 +4,22 @@ from sklearn.model_selection import cross_val_score, GridSearchCV, train_test_sp
 
 def kppvLearn(X, Y):
     print("KNN en cours...")
-    parameters = {'n_neighbors': [1, 20, 2],
-                  'weights': ('uniform', 'distance')}
+    parameters = {'n_neighbors': [1, 330, 10],
+                  'weights': ('uniform', 'distance'),
+                  'metric': ('euclidean', 'manhattan', 'minkowski', 'chebyshev'),
+                  'algorithm' : ('ball_tree', 'kd_tree', 'brute')}
 
     knn = KNeighborsClassifier()
     clf = GridSearchCV(knn, parameters, scoring='f1', cv=10)
     clf.fit(X, Y)
 
-    print("Les meilleurs parametres de KNN sont : ")
+    print("Les meilleurs parametres de GaussianNB sont : ")
     print(clf.best_params_)
     print("Score : ")
     print(clf.best_score_)
+    print("Résultats totaux : ")
+    print(1-clf.cv_results_['mean_test_score'])
+    print(clf.cv_results_['std_test_score'])
 
 # Les meilleurs parametres de KNN sont :
 # {'n_neighbors': 20, 'weights': 'distance'}
