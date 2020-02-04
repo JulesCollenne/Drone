@@ -2,6 +2,8 @@ from Code.tpdroneutils import *
 from kppv import *
 from bayes import *
 import matplotlib.pyplot as plt
+from sklearn.utils import shuffle
+from scipy.sparse import coo_matrix
 
 def learn():
     path1 = "Data/Mer/"
@@ -48,6 +50,10 @@ def predict():
     dataV = np.array(dataV)
     dataV = dataV.reshape((nV, sizeV))
     targetV = np.array(targetV)
+
+    dataV_sparse = coo_matrix(dataV)
+    dataV, dataV_sparse, targetV = shuffle(dataV, dataV_sparse, targetV)
+
     results = KPPVPredict(dataV, targetV, data)
     print(results)
 
