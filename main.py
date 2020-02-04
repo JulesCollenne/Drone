@@ -1,9 +1,7 @@
 from Code.tpdroneutils import *
-from decisiontrees import decisionTreeLearn
 from kppv import *
 from bayes import *
-from svc import SVCLearn
-
+import matplotlib.pyplot as plt
 
 def learn():
     path1 = "Data/Mer/"
@@ -33,22 +31,25 @@ def learn():
     #decisionTreeLearn(dataV, targetV)
     #decisionTreeLearn(dataH, targetH)
 
-    #kppvLearn(dataV, targetV)
-    #kppvLearn(dataH, targetH)
+    kppvLearn(dataV, targetV)
+    kppvLearn(dataH, targetH)
 
-    SVCLearn(dataV, targetV)
-    SVCLearn(dataH, targetH)
+    #SVCLearn(dataV, targetV)
+    #SVCLearn(dataH, targetH)
+
+    #PerceptronLearn(dataV, targetV)
+    #PerceptronLearn(dataH, targetH)
 
 def predict():
     path1 = "Data/Mer/"
     path2 = "Data/Ailleurs/"
-    data = np.load("BinTest/tHisto.npy")
-    nH, dataH, targetH, sizeH = chargementHistogrammesImages(path1, path2, 1, -1)
-    dataH = np.array(dataH)
-    dataH = dataH.reshape((nH, sizeH))
-    targetH = np.array(targetH)
-    results = GaussianNBPredict(dataH, targetH, data)
+    data = np.load("BinTest/tPixel-60.npy")
+    nV, dataV, targetV, sizeV = chargementVecteursImages(path1, path2, 1, -1, 60)
+    dataV = np.array(dataV)
+    dataV = dataV.reshape((nV, sizeV))
+    targetV = np.array(targetV)
+    results = KPPVPredict(dataV, targetV, data)
     print(results)
 
-learn()
-#predict()
+#learn()
+predict()

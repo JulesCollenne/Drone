@@ -1,10 +1,11 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score, GridSearchCV, train_test_split
+import json
 
 
 def kppvLearn(X, Y):
     print("KNN en cours...")
-    parameters = {'n_neighbors': [1, 330, 10],
+    parameters = {'n_neighbors': [1, 329, 10],
                   'weights': ('uniform', 'distance'),
                   'metric': ('euclidean', 'manhattan', 'minkowski', 'chebyshev'),
                   'algorithm' : ('ball_tree', 'kd_tree', 'brute')}
@@ -20,6 +21,9 @@ def kppvLearn(X, Y):
     print("Résultats totaux : ")
     print(1-clf.cv_results_['mean_test_score'])
     print(clf.cv_results_['std_test_score'])
+    fichier = open("kppv.txt", "w")
+    fichier.write(json.dumps(clf.best_params_))
+    fichier.close()
 
 # Les meilleurs parametres de KNN sont :
 # {'n_neighbors': 20, 'weights': 'distance'}
@@ -35,5 +39,7 @@ def kppvBestParam(X, y):
     print("Score : ")
     print(knn.score(X_test, y_test))
 
-def kppvPredict():
-    print("lol")
+def KPPVPredict(X_train, y_train, X_test):
+    knn = KNeighborsClassifier(algorithm='ball_tree', metric='manhattan', n_neighbors=10, weights='distance')
+    knn.fit(X_train, y_train)
+    return knn.predict(X_test)

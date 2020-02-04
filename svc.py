@@ -3,7 +3,7 @@ from sklearn.svm import SVC
 
 def SVCLearn(X, Y):
     print("SVC en cours...")
-    parameters = { 'C' : [0,10,0.5],
+    parameters = { 'C' : [0.1,10,0.5],
                    'kernel' : ('rbf', 'linear', 'poly', 'sigmoid')}
     svc = SVC()
     clf = GridSearchCV(svc, parameters, scoring='f1', cv=10)
